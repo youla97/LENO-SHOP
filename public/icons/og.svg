@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f46e5"/><stop offset=".6" stop-color="#7c3aed"/><stop offset="1" stop-color="#f97316"/></linearGradient></defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <text x="80" y="300" font-family="Segoe UI, Arial, sans-serif" font-size="110" font-weight="800" fill="#fff">LENO SHOP</text>
+  <text x="84" y="380" font-family="Segoe UI, Arial, sans-serif" font-size="40" fill="rgba(255,255,255,.9)">Informatique &amp; Mode · Foula Madina, Conakry</text>
+</svg>

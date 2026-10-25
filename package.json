@@ -1,0 +1,16 @@
+{
+  "name": "leno-shop",
+  "version": "1.0.0",
+  "description": "LENO SHOP - boutique en ligne de matériel informatique et d'habits, Foula Madina (Conakry)",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "reset-db": "node server.js --reset"
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}
