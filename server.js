@@ -670,10 +670,12 @@ admin('GET', '/api/admin/export/orders.csv', ['admin', 'vendeur'], ({ res }) => 
 function serveStatic(req, res, urlPath) {
   let rel = decodeURIComponent(urlPath);
   if (rel === '/admin' || rel.startsWith('/admin/') && !path.extname(rel)) rel = '/admin/index.html';
-  let file = path.normalize(path.join(PUBLIC, rel));
-  if (!file.startsWith(PUBLIC)) return send(res, 403, 'Interdit');
+  const isUpload = rel.startsWith('/uploads/');
+  const base = path.resolve(isUpload ? UPLOADS : PUBLIC);
+  let file = path.normalize(path.join(base, isUpload ? rel.slice('/uploads'.length) : rel));
+  if (!file.startsWith(base)) return send(res, 403, 'Interdit');
   if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) {
-    if (path.extname(rel)) return send(res, 404, 'Fichier introuvable');
+    if (path.extname(rel) || isUpload) return send(res, 404, 'Fichier introuvable');
     file = path.join(PUBLIC, 'index.html'); // routage côté navigateur
   }
   const ext = path.extname(file).toLowerCase();

@@ -53,6 +53,26 @@ Codes promo de démonstration : `BIENVENUE10` (−10 %) et `LENO50K` (−50 000 
 - Catégories, codes promo, zones et tarifs de livraison, modération des avis, messages et devis, bannières de l'accueil
 - Rôles : administrateur, vendeur, gestionnaire de stock, livreur (chacun ne voit que ce qui le concerne)
 
+## Déployer sur Render
+
+L'application doit être créée comme **Web Service** (et non *Static Site*, qui répond « Not Found » car le serveur Node n'est jamais lancé).
+
+Méthode la plus simple : dans Render, **New > Blueprint**, choisir le dépôt `youla97/LENO-SHOP` : le fichier `render.yaml` configure tout (Node 22.14, commande `node server.js`, mot de passe admin généré).
+
+Méthode manuelle : **New > Web Service**, dépôt `youla97/LENO-SHOP`, puis :
+
+| Réglage | Valeur |
+| --- | --- |
+| Runtime | Node |
+| Build Command | `echo ok` |
+| Start Command | `node server.js` |
+| Variable `NODE_VERSION` | `22.14.0` |
+| Variable `ADMIN_PASSWORD` | votre mot de passe administrateur |
+
+Le mot de passe généré par le Blueprint se lit dans Render, onglet *Environment* du service.
+
+Sur le plan gratuit, le disque est effacé à chaque redéploiement ou mise en veille longue : les commandes et photos ajoutées sont perdues. Pour la production, ajoutez un disque persistant (plan payant) et les variables `DATA_DIR=/var/data/db` et `UPLOADS_DIR=/var/data/uploads` (voir les commentaires de `render.yaml`).
+
 ## Avant la mise en ligne
 
 1. **Informations boutique** : téléphone, WhatsApp, e-mail, horaires et réseaux sociaux dans `config.js`.

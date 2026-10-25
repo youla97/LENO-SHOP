@@ -1,0 +1,23 @@
+# Déploiement Render : New > Blueprint, puis choisir ce dépôt.
+services:
+  - type: web
+    name: leno-shop
+    runtime: node
+    plan: free
+    buildCommand: echo "Aucune dépendance à installer"
+    startCommand: node server.js
+    healthCheckPath: /api/config
+    envVars:
+      - key: NODE_VERSION
+        value: "22.14.0"
+      - key: ADMIN_EMAIL
+        value: admin@lenoshop.gn
+      - key: ADMIN_PASSWORD
+        generateValue: true
+    # Plan gratuit : le disque est effacé à chaque redéploiement (commandes et photos perdues).
+    # Pour garder les données, passez au plan "starter" et décommentez :
+    # disk:
+    #   name: leno-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # puis ajoutez les variables DATA_DIR=/var/data/db et UPLOADS_DIR=/var/data/uploads
