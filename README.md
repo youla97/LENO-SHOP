@@ -78,7 +78,7 @@ Sur le plan gratuit, le disque est effacé à chaque redéploiement ou mise en v
 1. **Informations boutique** : téléphone, WhatsApp, e-mail, horaires et réseaux sociaux dans `config.js`.
 2. **Mot de passe administrateur** : changez-le (variable `ADMIN_PASSWORD` avant le premier démarrage, ou créez un nouvel admin dans *Clients & équipe*).
 3. **Paiement mobile money** : le paiement Orange Money / MTN MoMo fonctionne en **mode démonstration** (le client clique « J'ai validé »). Pour encaisser réellement, il faut un contrat avec Orange Money, MTN MoMo ou un agrégateur, puis remplacer la route `POST /api/orders/:code/pay` dans `server.js` par l'appel à leur API (avec confirmation par webhook).
-4. **Photos** : remplacez les visuels de démonstration par de vraies photos depuis *Produits & stock*.
+4. **Photos** : les produits et bannières de démonstration utilisent des photos d'illustration [Unsplash](https://unsplash.com/license) (gratuites, usage commercial autorisé), listées dans `lib/images.js`. Elles montrent un produit du même type, pas toujours le modèle exact : remplacez-les par vos propres photos depuis *Produits & stock* (envoi de fichier ou lien Unsplash) et *Bannières accueil*.
 5. **Hébergement** : un VPS (OVH, DigitalOcean…) avec Node.js, derrière Nginx ou Caddy pour le HTTPS, et un nom de domaine (ex. lenoshop.gn). Sauvegardez chaque jour le dossier `data/` et `public/uploads/`.
 6. **CGV** : faites valider le modèle de la page `/cgv` par un juriste.
 

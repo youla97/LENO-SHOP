@@ -52,7 +52,7 @@ function shell() {
       <div><h4>Aide</h4><a href="/suivi">Suivre ma commande</a><a href="/faq">Questions fréquentes</a><a href="/devis">Devis entreprise</a><a href="/a-propos">À propos</a><a href="/cgv">Conditions générales de vente</a><a href="/contact">Contact</a>
         <div class="pay-badges"><span style="background:#ff7900;color:#fff">Orange Money</span><span style="background:#ffcc00;color:#000">MTN MoMo</span><span>Cash à la livraison</span></div></div>
     </div>
-    <div class="footer-bottom"><span>© ${new Date().getFullYear()} LENO SHOP — Foula Madina, Conakry, Guinée</span><span>Prix en francs guinéens (GNF), TTC</span></div></div>`;
+    <div class="footer-bottom"><span>© ${new Date().getFullYear()} LENO SHOP — Foula Madina, Conakry, Guinée</span><span>Prix en francs guinéens (GNF), TTC · Photos d'illustration : <a href="https://unsplash.com" target="_blank" rel="noopener" style="display:inline">Unsplash</a></span></div></div>`;
   $('#wa').href = `https://wa.me/${s.whatsapp}?text=${encodeURIComponent('Bonjour LENO SHOP, j\'ai une question.')}`;
   $('#wa').innerHTML = waIcon();
 }

@@ -282,7 +282,8 @@ function productForm(p, after) {
       <div class="field full"><label>Description</label><textarea class="input" name="description">${esc(p.description)}</textarea></div>
       <div class="field full"><label>Photos (la première est la photo principale)</label>
         <div class="img-list" data-imgs></div>
-        <span class="hint">JPG, PNG ou WEBP · les photos sont automatiquement allégées.</span></div>
+        <span class="hint">JPG, PNG ou WEBP · les photos sont automatiquement allégées.</span>
+        <div class="toolbar" style="margin:8px 0 0"><input class="input grow" data-img-url placeholder="… ou collez un lien d'image Unsplash"><button type="button" class="btn btn-sm btn-outline" data-add-url>Ajouter le lien</button></div></div>
       <div class="field full"><label>Caractéristiques techniques</label><div data-specs>${Object.entries(p.specs).map(([k, v]) => specRow(k, v)).join('')}</div>
         <button type="button" class="btn btn-sm btn-outline" data-add-spec>${icon('plus')} Ajouter une caractéristique</button></div>
       <label class="switch"><input type="checkbox" name="featured" ${p.featured ? 'checked' : ''}> Mettre en avant (coups de cœur)</label>
@@ -295,10 +296,17 @@ function productForm(p, after) {
     $('[data-imgs]', el).innerHTML = images.map((src, i) => `<div class="im"><img src="${esc(src)}" alt=""><button type="button" data-rm-img="${i}" aria-label="Retirer">${icon('x')}</button></div>`).join('')
       + `<label class="upload-tile">${icon('plus')}<span>Ajouter<br>des photos</span><input type="file" accept="image/png,image/jpeg,image/webp" multiple hidden data-upload></label>`;
   };
+  const addByUrl = () => {
+    const input = $('[data-img-url]', el);
+    const url = input.value.trim();
+    if (!/^https:\/\/images\.unsplash\.com\/photo-/.test(url)) return toast('Collez un lien d\'image Unsplash (https://images.unsplash.com/photo-…)', 'err');
+    images.push(url); input.value = ''; drawImgs();
+  };
   drawImgs();
   el.addEventListener('click', e => {
     const rmImg = e.target.closest('[data-rm-img]');
     if (rmImg) { images.splice(Number(rmImg.dataset.rmImg), 1); drawImgs(); }
+    if (e.target.closest('[data-add-url]')) addByUrl();
     if (e.target.closest('[data-add-spec]')) $('[data-specs]', el).insertAdjacentHTML('beforeend', specRow());
     if (e.target.closest('[data-rm-spec]')) e.target.closest('.spec-row').remove();
   });

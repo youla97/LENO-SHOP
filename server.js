@@ -21,7 +21,7 @@ const SECURITY_HEADERS = {
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Content-Security-Policy': [
     "default-src 'self'",
-    "img-src 'self' data: blob:",
+    "img-src 'self' data: blob: https://images.unsplash.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "frame-src https://www.google.com https://maps.google.com",
@@ -94,6 +94,10 @@ function requireRole(req, roles) {
   if (roles && !roles.includes(user.role)) throw new HttpError(403, 'Accès refusé');
   return user;
 }
+
+// Photos acceptées : fichiers envoyés sur le site, ou photos Unsplash (autorisées par la politique de sécurité).
+const IMAGE_HOSTS = ['https://images.unsplash.com/'];
+const isImageUrl = u => typeof u === 'string' && u.length < 600 && (u.startsWith('/uploads/') || IMAGE_HOSTS.some(h => u.startsWith(h)));
 
 const str = (v, max = 500) => (v == null ? '' : String(v).trim().slice(0, max));
 const int = (v, def = 0) => { const n = parseInt(v, 10); return Number.isFinite(n) ? n : def; };
@@ -455,7 +459,7 @@ function productFromBody(body) {
   const list = v => (Array.isArray(v) ? v : String(v || '').split(',')).map(s => str(s, 40)).filter(Boolean);
   const specs = {};
   if (body.specs && typeof body.specs === 'object') for (const [k, v] of Object.entries(body.specs)) if (str(k) && str(v)) specs[str(k, 60)] = str(v, 200);
-  const images = (Array.isArray(body.images) ? body.images : []).filter(u => typeof u === 'string' && u.startsWith('/uploads/')).slice(0, 8);
+  const images = (Array.isArray(body.images) ? body.images : []).filter(isImageUrl).slice(0, 8);
   return {
     univers: cat.univers, category_id: cat.id, name, brand: str(body.brand, 80), description: str(body.description, 5000),
     price, old_price: int(body.old_price) > price ? int(body.old_price) : null, stock: Math.max(0, int(body.stock)),
@@ -653,7 +657,7 @@ admin('GET', '/api/admin/banners', ['admin'], () => db.prepare('SELECT * FROM ba
 admin('PUT', '/api/admin/banners/:id', ['admin'], ({ params, body }) => {
   db.prepare('UPDATE banners SET title = ?, subtitle = ?, cta = ?, link = ?, image = COALESCE(?, image), active = ? WHERE id = ?')
     .run(str(body.title, 120), str(body.subtitle, 300), str(body.cta, 60), str(body.link, 200),
-      typeof body.image === 'string' && body.image.startsWith('/uploads/') ? body.image : null, body.active === false ? 0 : 1, int(params.id));
+      isImageUrl(body.image) ? body.image : null, body.active === false ? 0 : 1, int(params.id));
   return { ok: true };
 });
 
